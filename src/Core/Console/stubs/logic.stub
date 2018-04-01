@@ -1,0 +1,124 @@
+<?php
+namespace {{name_space}};
+
+use App\Exceptions\ApiException;
+
+class {{class_name}}
+{
+
+    /**
+     * 列表
+     * @param array $data 列表查询条件
+     *              $data.
+     * @return
+     */
+    public static function {{list_name}}($data)
+    {
+        $list = \App\Model\{{model_class}}Model::select([])
+            ->where('is_on', 1);
+
+        //筛选
+        if (isset($data[''])) {
+            $list->where('', $data['']);
+        }
+
+        $list = $list->paginate(15);
+        return $list;
+    }
+
+    /**
+     * 获取详情
+     * @param int $id ID
+     * @return
+     * @throws ApiException
+     */
+    public static function {{get_one_name}}($id)
+    {
+        $data = \App\Model\{{model_class}}Model::where('is_on', 1)
+            ->select([])
+            ->find($id);
+
+        if (!$data) {
+            throw new ApiException('xx不存在!');
+        }
+
+        return $data;
+    }
+
+    /**
+     * 添加
+     * @param array $data 要添加的数据
+     * @return bool
+     * @throws ApiException
+     */
+    public static function {{add_name}}($data)
+    {
+        ${{model_name}}_model = new \App\Model\{{model_class}}Model();
+        set_save_data(${{model_name}}_model, $data);
+        $res = ${{model_name}}_model->save();
+        if (!$res) {
+            \DB::rollBack();
+            throw new ApiException('数据库错误!');
+        }
+
+        return true;
+    }
+
+    /**
+     * 修改信息
+     * @param array $data 修改的信息
+     * @param int $id ID
+     * @return bool
+     * @throws ApiException
+     */
+    public static function {{update_name}}($data, $id)
+    {
+        //是否存在
+        $res = \App\Model\{{model_class}}Model::where('is_on', 1)
+            ->select(['id'])
+            ->find($id);
+
+        if (!$res) {
+            throw new ApiException('xx不存在!');
+        }
+
+        set_save_data($res, $data);
+        $update = $res->save();
+        if (!$update) {
+            \DB::rollBack();
+            throw new ApiException('数据库错误!');
+        }
+
+        return true;
+    }
+
+    /**
+     * 删除
+     * @param int $id ID
+     * @return bool
+     * @throws ApiException
+     */
+    public static function {{delete_name}}($id)
+    {
+        $res = \App\Model\{{model_class}}Model::where('is_on', 1)
+            ->select(['id'])
+            ->find($id);
+
+        if (!$res) {
+            throw new ApiException('xx不存在');
+        }
+
+        \DB::beginTransaction();
+
+        set_save_data($res, ['is_on' => 0]);
+        $update = $res->save();
+
+        if (!$update) {
+            \DB::rollBack();
+            throw new ApiException('数据库错误!');
+        }
+
+        return true;
+    }
+
+}

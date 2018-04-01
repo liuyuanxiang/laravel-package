@@ -1,0 +1,15 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class {{class_name}} extends Seeder{
+    /**
+     * 运行数据库填充
+     *
+     * @return void
+     */
+    public function run()
+    {
+{{data}};
+    }
+}

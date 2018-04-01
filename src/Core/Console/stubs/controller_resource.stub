@@ -1,0 +1,115 @@
+<?php
+namespace {{name_space}};
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class {{class_name}} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+        $this->verify([
+            '' => 'no_required',
+        ], 'GET');
+
+        $list = \App\Logic\{{logic_name}}Logic::get{{logic_base_name}}List($this->verifyData);
+
+        return $this->responseList($list);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+        $this->verify([
+            '' => '',
+        ], 'POST');
+        $data = $this->verifyData;
+
+        \App\Logic\{{logic_name}}Logic::add{{logic_base_name}}($data);
+
+        return $this->response();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $this->verifyId($id);
+
+        $data = \App\Logic\{{logic_name}}Logic::getOne{{logic_base_name}}($id);
+
+        return $this->response($data);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $this->verifyId($id);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->verifyId($id);
+
+        $this->verify([
+            '' => 'no_required'
+        ], 'POST');
+
+        \App\Logic\{{logic_name}}Logic::update{{logic_base_name}}($this->verifyData, $id);
+
+        return $this->response();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $this->verifyId($id);
+
+        \App\Logic\{{logic_name}}Logic::delete{{logic_base_name}}($id);
+
+        return $this->response();
+    }
+}

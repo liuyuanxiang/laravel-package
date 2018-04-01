@@ -1,0 +1,128 @@
+<?php
+
+namespace {{name_space}};
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use DB;
+
+class {{class_name}} extends TestCase
+{
+    use DatabaseTransactions;
+
+    public $testUserId = 1;      //调试testuser模式,用户id
+    public $url = '/api/test';   // 接口url
+
+    /**
+     * 测试列表
+     * 成功返回成功代码200，返回json的status为true
+     */
+    public function testList()
+    {
+        $data = [
+            '' => ''
+        ];
+        $response =  $this->send('GET', $this->url,$this->testUserId,$data);
+
+        //var_dump($response->baseResponse->getContent());
+        //var_dump($response->baseResponse->getOriginalContent());
+
+        $response->assertStatus(200)->assertJson(['status'=>true]);
+    }
+
+    /**
+     * 测试单条
+     * 成功返回成功代码200，返回json的status为true
+     */
+    public function testShow()
+    {
+        $random = \DB::table('{{table}}')
+            ->where('is_on',1)
+            ->inRandomOrder()
+            ->first();
+        $data = [
+            '' => ''
+        ];
+        $response =  $this->send('GET', $this->url.'/'.$random->id,$this->testUserId,$data);
+
+        //var_dump($response->baseResponse->getContent());
+        //var_dump($response->baseResponse->getOriginalContent());
+
+        $response->assertStatus(200)->assertJson(['status'=>true]);
+    }
+
+    /**
+     * 测试添加成功
+     * 成功返回成功代码200，返回json的status为true
+     */
+    public function testAddSucceed()
+    {
+        $data = [
+            '' => ''
+        ];
+        $response =  $this->send('POST', $this->url,$this->testUserId,$data);
+
+        //var_dump($response->baseResponse->getContent());
+        //var_dump($response->baseResponse->getOriginalContent());
+
+        $response->assertStatus(200)->assertJson(['status'=>true]);
+
+        // 验证数据库table表是否存在数组的内容
+        $this->assertDatabaseHas('{{table}}',[
+            '' => ''
+        ]);
+    }
+
+    /**
+     * 测试修改成功
+     * 成功返回成功代码200，返回json的status为true
+     */
+    public function testUpdateSucceed()
+    {
+        $random = \DB::table('{{table}}')
+            ->where('is_on',1)
+            ->inRandomOrder()
+            ->first();
+        $data = [
+            '' => ''
+        ];
+        $response =  $this->send('PUT', $this->url.'/'.$random->id,$this->testUserId,$data);
+
+        //var_dump($response->baseResponse->getContent());
+        //var_dump($response->baseResponse->getOriginalContent());
+
+        $response->assertStatus(200)->assertJson(['status'=>true]);
+
+        // 验证数据库table表是否存在数组的内容
+        $this->assertDatabaseHas('{{table}}',[
+            '' => ''
+        ]);
+    }
+
+    /**
+     * 测试删除成功
+     * 成功返回成功代码200，返回json的status为true
+     */
+    public function testDeleteSucceed()
+    {
+        $random = \DB::table('{{table}}')
+            ->where('is_on',1)
+            ->inRandomOrder()
+            ->first();
+        $response =  $this->send('DELETE', $this->url.'/'.$random->id,$this->testUserId);
+
+        //var_dump($response->baseResponse->getContent());
+        //var_dump($response->baseResponse->getOriginalContent());
+
+        $response->assertStatus(200)->assertJson(['status'=>true]);
+
+        // 验证数据库table表是否不存在数组的内容
+        $this->assertDatabaseHas('{{table}}',[
+            'id' => $random->id,
+            'is_on' => 0
+        ]);
+    }
+
+}

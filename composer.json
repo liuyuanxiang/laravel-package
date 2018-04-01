@@ -1,0 +1,28 @@
+{
+    "name": "liuyuanxiang/laravel-package",
+    "description": "The extension package of laravel framework!",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yashon Lvan",
+            "email": "503931578@qq.com"
+        }
+    ],
+    "require": {
+    	"php": ">=7.0.0",
+	"laravel/framework": "~5.4"
+    },
+    "autoload": {
+    	"psr-4": {
+		"Yashon\\Laravel\\": "src/",
+		"App\\Exceptions\\": "src/Core/Exception"
+	}
+    },
+    "extra": {
+    	"laravel": {
+		"providers": [
+			"Yashon\\Laravel\\Core\\CoreProvider"
+		]
+	}
+    }
+}
