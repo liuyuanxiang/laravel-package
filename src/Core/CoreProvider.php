@@ -45,8 +45,7 @@ class CoreProvider extends ServiceProvider
                 'Yashon\Laravel\Core\Console\CreateInit',
 
                 'Yashon\Laravel\Core\Console\Config',
-                'Yashon\Laravel\Core\Console\Supervisor',
-                'Yashon\Laravel\Core\Console\Upload'
+                'Yashon\Laravel\Core\Console\Supervisor'
 
             ]);
         }
