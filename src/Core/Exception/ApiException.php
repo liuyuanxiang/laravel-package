@@ -40,25 +40,25 @@ class ApiException extends \Exception
      */
     public function render($request)
     {
-        if ($request->header('X-ISAPI') == 1) {
+        // if ($request->header('X-ISAPI') == 1) {
             return $this->result($request);
-        } else {
+        // } else {
             /*$e = \Symfony\Component\Debug\Exception\FlattenException::create($this, $this->getCode());
             $handler = new SymfonyExceptionHandler(config('app.debug'));
 
             return SymfonyResponse::create($handler->getHtml($e), $e->getStatusCode(), $e->getHeaders());*/
-            return view('Yashon-package::exception', [
-                'error_msg' => $this->getMessage(),
-                'debug' => config('app.debug') == 'true' ?  [
-                    'type' => get_class($this),
-                    'line' => $this->getLine(),
-                    'file' => $this->getFile(),
-                    'trace' => explode("\n", $this->getTraceAsString())
-                ] : ''
-            ]);
+            // return view('Yashon-package::exception', [
+            //     'error_msg' => $this->getMessage(),
+            //     'debug' => config('app.debug') == 'true' ?  [
+            //         'type' => get_class($this),
+            //         'line' => $this->getLine(),
+            //         'file' => $this->getFile(),
+            //         'trace' => explode("\n", $this->getTraceAsString())
+            //     ] : ''
+            // ]);
 
 
-        }
+        // }
     }
 
     /**

@@ -24,13 +24,13 @@ class CoreProvider extends ServiceProvider
         }
 
         //调试模式
-        if (config('app.debug') === true) {
-            //注册路由
-            if (!$this->app->routesAreCached()) {
-                require __DIR__ . '/routes/debug.php';
-            }
-            new \Yashon\Laravel\Core\Debuger();
-        }
+        // if (config('app.debug') === true) {
+        //     //注册路由
+        //     if (!$this->app->routesAreCached()) {
+        //         require __DIR__ . '/routes/debug.php';
+        //     }
+        //     new \Yashon\Laravel\Core\Debuger();
+        // }
 
         //注册自动生成命令
         if ($this->app->runningInConsole()) {
