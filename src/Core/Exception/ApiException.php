@@ -108,7 +108,7 @@ class ApiException extends \Exception
 
         $data = [
             'status' => false,
-            'error_msg' => $error_msg,
+            'msg' => $error_msg,
             'error_code' => $error_code,
             'http_code' => $http_code,
             'data' => [],

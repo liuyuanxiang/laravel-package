@@ -28,7 +28,7 @@ trait Controller
     {
         return response()->json([
             'status' => true,
-            'error_msg' => 'ok',
+            'msg' => 'ok',
             'error_code' => '',
             'data' => $data,
             'list' => $list

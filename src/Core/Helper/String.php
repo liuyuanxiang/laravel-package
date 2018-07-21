@@ -139,5 +139,44 @@ if (!function_exists('decode_hashids')) {
     }
 }
 
+if (!function_exists('hide_email')) {
+    /**
+     * 私隐化邮箱
+     * @param $email
+     * @return string
+     */
+    function hide_email($email)
+    {
+        if (empty($email)) {
+            return '';
+        }
+
+        $email_array = explode("@", $email);
+        $prevfix = (strlen($email_array[0]) < 4) ? "" : substr($email, 0, 3); //邮箱前缀
+        $count = 0;
+        $str = preg_replace('/([\d\w+_-]{0,100})@/', '***@', $email, -1, $count);
+        $rs = $prevfix . $str;
+        return $rs;
+    }
+}
+
+if (!function_exists('hide_phone')) {
+    /**
+     * 私隐化手机号码
+     * @param $email
+     * @return string
+     */
+    function hide_phone($phone)
+    {
+        if (empty($phone)) {
+            return '';
+        }
+
+        $str = substr_replace($phone, '****', 3, 4);
+
+        return $str;
+    }
+}
+
 
 
