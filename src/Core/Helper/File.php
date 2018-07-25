@@ -201,3 +201,64 @@ if (!function_exists('del_dir')) {
 }
 
 
+/**
+     * 复制图片
+     * @param $source_src 源图片地址
+     * @param $target_src 目标图片地址
+     * @param int $is_change 是否改变图片大小,0表示原图复制
+     * @param int $width 改变图片的宽度
+     * @param int $height 改变图片的高度
+     */
+if (!function_exists('copyImage')) {
+    copyImage($source_src='', $target_src, $is_change = 0, $width = 300, $height = 300)
+    {
+        //源图的路径，可以是本地文件，也可以是远程图片
+        Log::info('creatImage from source_src: ' . $source_src);
+
+        //源图对象
+        try {
+            $src_image = imagecreatefromjpeg($source_src);
+        } catch (\Exception $e) {
+            Log::error('Failed when imagecreatefromjpeg($source_src), exception:' . $e->getMessage() . ' ,line:' . $e->getLine());
+        }
+
+        //不改变图片大小时，直接复制
+        if (empty($is_change)) {
+            imagejpeg($src_image, $target_src);
+            return true;
+        }
+
+        //改变图片大小
+        $src_width = imagesx($src_image);
+        $src_height = imagesy($src_image);
+
+        //生成等比例的缩略图
+        $tmp_image_width = 0;
+        $tmp_image_height = 0;
+        if ($src_width / $src_height >= $width / $height) {
+            $tmp_image_width = $width;
+            $tmp_image_height = round($tmp_image_width * $src_height / $src_width);
+        } else {
+            $tmp_image_height = $height;
+            $tmp_image_width = round($tmp_image_height * $src_width / $src_height);
+        }
+
+        $tmpImage = imagecreatetruecolor($tmp_image_width, $tmp_image_height);
+        imagecopyresampled($tmpImage, $src_image, 0, 0, 0, 0, $tmp_image_width, $tmp_image_height, $src_width, $src_height);
+
+        //添加白边
+        $final_image = imagecreatetruecolor($width, $height);
+        $color = imagecolorallocate($final_image, 255, 255, 255);
+        imagefill($final_image, 0, 0, $color);
+
+        $x = round(($width - $tmp_image_width) / 2);
+        $y = round(($height - $tmp_image_height) / 2);
+
+        imagecopy($final_image, $tmpImage, $x, $y, 0, 0, $tmp_image_width, $tmp_image_height);
+
+        imagejpeg($final_image, $target_src);
+
+        return true;
+
+    }
+}
