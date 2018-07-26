@@ -210,7 +210,7 @@ if (!function_exists('del_dir')) {
      * @param int $height 改变图片的高度
      */
 if (!function_exists('copyImage')) {
-    copyImage($source_src='', $target_src, $is_change = 0, $width = 300, $height = 300)
+    function copyImage($source_src='', $target_src, $is_change = 0, $width = 300, $height = 300)
     {
         //源图的路径，可以是本地文件，也可以是远程图片
         Log::info('creatImage from source_src: ' . $source_src);
